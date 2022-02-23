@@ -87,6 +87,7 @@ input {
   background-color: rgba(255, 255, 255, 0.7);
   transition-duration: 0.4s;
   border-radius:    4px;
+  border: 1px solid black;
 }
 
 input:hover {
@@ -161,4 +162,10 @@ input:hover {
   font-size: 24pt;
   font-weight: 100;
   text-align: center;
+}
+
+input#surdeig, input#vann, input#mel {
+  font-style:italic;
+  color:gray;
+  width:125px;
 }

@@ -1,58 +1,68 @@
-function clickSort(){
-  document.getElementById("sortSale").click()
-  document.getElementById("sortSale").click()
-  document.getElementById("sortSale2").click()
-  document.getElementById("sortSale2").click()
+function clearField(form){
+  if(document.getElementById(form).value.search(/[a-z]/gi) != -1){
+    document.getElementById(form).value = ''
+    document.getElementById(form).style.fontStyle = 'normal'
+    document.getElementById(form).style.color = 'black'
+  }
 }
-var toggle = 0
-function hideFakes(){
-  if(!toggle){
-    document.querySelectorAll('tr').forEach( function (row) {
-      if (row.textContent.includes('deleted') || row.textContent.includes('inactive'))  row.classList.add('hidden')
-      document.getElementById('hideButton').value = 'Vis slettet/inaktiv'
-    })
-    toggle = 1
+
+function feeeed(){
+  var error = 0
+  var surdeig = document.getElementById('surdeig').value
+  var vann = document.getElementById('vann').value
+  var mel = document.getElementById('mel').value
+  if (isNaN(surdeig) || surdeig < 1 || surdeig > 300) error++
+  if (isNaN(vann) || vann < 1 || vann > 300) error++
+  if (isNaN(mel) || mel < 1 || mel > 300) error++
+
+  if(error > 0){
+    alert("FALSE values")
   } else {
-    document.querySelectorAll('tr').forEach( function (row) {
-      if (row.textContent.includes('deleted') || row.textContent.includes('inactive')) row.classList.remove('hidden')
-      document.getElementById('hideButton').value = 'Skjul slettet/inaktiv'
-    })
-    toggle = 0
-  }
+    const xhttp = new XMLHttpRequest()
+    xhttp.onload = function() {
+      // mjææ
+    }
+    xhttp.open("POST", "/postfeed")
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`surdeig=${surdeig}&vann=${vann}&mel=${mel}`)
 
-}
-function markRead() {
-  const xhttp = new XMLHttpRequest();
-  xhttp.onload = function() {
-    document.querySelectorAll(".new").forEach(el => el.classList.remove("new"))
+    document.getElementById('surdeig').value = 'Surdeig (gram)'
+    document.getElementById('surdeig').disabled = true
+    document.getElementById('surdeig').style.fontStyle = 'italic'
+    document.getElementById('surdeig').style.color = 'gray'
+    document.getElementById('vann').value = 'Vann (gram)'
+    document.getElementById('vann').disabled = true
+    document.getElementById('vann').style.fontStyle = 'italic'
+    document.getElementById('vann').style.color = 'gray'
+    document.getElementById('mel').value = 'Mel (gram)'
+    document.getElementById('mel').disabled = true
+    document.getElementById('mel').style.fontStyle = 'italic'
+    document.getElementById('mel').style.color = 'gray'
+    document.getElementById('feedSubmit').disabled = true
   }
-  xhttp.open("GET", "/markread")
-  xhttp.send()
-}
-
-function loadFragmentInToElement(fragment_url, element_id) {
-  var element = document.getElementById(element_id)
-  const xmlhttp = new XMLHttpRequest();
-  xmlhttp.open("GET", fragment_url)
-  xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) element.innerHTML = xmlhttp.responseText.replace('-- ', '').replace('- ', '')
-  }
-  xmlhttp.send()
+  return false
 }
 
-function forceUpdate(){
-  const xhttp = new XMLHttpRequest()
-  xhttp.onload = function() {
-    document.getElementById('forceButton').value = 'Oppdaterer...'
-    document.getElementById('forceButton').disabled = true
-    document.getElementById('loading').style.visibility = 'visible'
-    setInterval(function(){
-      loadFragmentInToElement('/status', 'statusMsg')
-    }, 200)
-  }
-  xhttp.open("GET", "/forceupdate")
-  xhttp.send()
-  setTimeout(function(){
-    location.reload()
-  },10000)
+function start(){
+  
+  // Countdown to next read
+  var x = setInterval(() => {
+    var currentDate = new Date()
+    var lastRead = new Date(document.getElementById('lastRead').value)
+    var futureDate = new Date(lastRead.getTime() + 10*60000)
+  
+    var preSeconds = (futureDate-currentDate)/1000
+    var minutes = Math.floor(preSeconds/60)
+    var seconds     = Math.floor((futureDate-currentDate)/1000-(minutes*60))
+    if(seconds <= 9){
+      seconds   = `0${seconds}`
+    }
+  
+    document.getElementById('nextRead').innerHTML = `${minutes}:${seconds}`
+
+    if(preSeconds == 0){
+      clearInterval(x)
+      document.getElementById('nextRead').innerHTML = `UTDATERT`
+    } 
+  }, 500)
 }
