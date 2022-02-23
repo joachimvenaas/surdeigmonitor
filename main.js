@@ -9,6 +9,8 @@ require('dotenv').config()
 
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
 
+debuglevel = 0
+
 var connection = mysql.createConnection({
   host: process.env.DBhostname,
   user: process.env.DBusername,
@@ -28,7 +30,6 @@ var connection = mysql.createConnection({
 // OPPSTART
 debug(`Starter surdeigsmonitor`)
 connection.connect()
-startScraping()
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
 DELTE FUNKSJONER
@@ -54,13 +55,12 @@ async function insertIntoDB(length, feed){
 /*---------------------------------------------------------------------------------------------------------------------------------------
 WEBSERVER
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-http.createServer(function (req, res) {
+http.createServer(function (req, res){
   if (req.url == '/'){
     res.writeHead(200)
-    debug("Website laster...")
     res.end(`<html>
       <head>
-        <title>RTX</title>
+        <title>Surdeigsmonitor</title>
         <meta charset="UTF-8">
         <meta name="theme-color" content="#4ac282">
         <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
