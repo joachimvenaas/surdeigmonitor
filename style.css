@@ -1,0 +1,6 @@
+body {
+  background:       rgb(74, 194, 129);
+  background:       linear-gradient(135deg, rgba(74, 194, 129, 1) 0%, rgba(73, 181, 191, 1) 100%);
+  background-attachment: fixed;
+  font-family:      -apple-system, BlinkMacSystemFont, calibri;
+}
