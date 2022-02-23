@@ -17,7 +17,7 @@ var connection = mysql.createConnection({
   password: process.env.DBpassword,
   database: process.env.DBdatabase
 })
-
+// test
 /* DB SCHEMA
  * id (int)
  * time (date)
