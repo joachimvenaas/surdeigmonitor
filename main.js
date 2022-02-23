@@ -5,8 +5,6 @@ const axios =     require('axios')
 const cheerio =   require('cheerio')
 const fs =        require('fs')
 require('dotenv').config()
-import Sonar from 'raspi-hc-sr04'
-let sonar = new Sonar({ triggerPin: 4, echoPin: 31 })
 
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
 
@@ -20,7 +18,6 @@ var connection = mysql.createConnection({
   database: process.env.DBdatabase
 })
 
-
 /* DB SCHEMA
  * id (int)
  * time (date)
@@ -32,6 +29,7 @@ var connection = mysql.createConnection({
 // OPPSTART
 debug(`Starter surdeigsmonitor`)
 connection.connect()
+let sonar = new Sonar({ triggerPin: triggerPin, echoPin: echoPin })
 measureDistanceInterval()
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
@@ -52,10 +50,7 @@ DATA INNSAMLING
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 async function measureFromSound(){
   var distance = 0
-  sonar.read((duration) => {
-    distance = 343*duration/1000*0.5
-    debug(`Duration: ${duration}, distance: ${distance}mm`)
-  })
+
   return distance.toFixed(0)
 }
 
@@ -76,7 +71,6 @@ async function feedingTime(){ // Må trigges fra webserver
   var result = measureFromSound()
 
   await insertIntoDB(result, true)
-
 }
 
 async function insertIntoDB(distance, feed=false){
@@ -85,7 +79,6 @@ async function insertIntoDB(distance, feed=false){
   })
   return
 }
-
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
 WEBSERVER
