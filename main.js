@@ -1,10 +1,12 @@
-const mysql = require('mysql')
-const fetch = require('node-fetch')
-const http = require('http')
-const axios = require('axios')
-const cheerio = require('cheerio')
-const fs = require('fs')
+const mysql =     require('mysql')
+const fetch =     require('node-fetch')
+const http =      require('http')
+const axios =     require('axios')
+const cheerio =   require('cheerio')
+const fs =        require('fs')
 require('dotenv').config()
+import Sonar from 'raspi-hc-sr04'
+let sonar = new Sonar({ triggerPin: 4, echoPin: 31 })
 
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
 
@@ -49,11 +51,12 @@ function sleep(ms) {
 DATA INNSAMLING
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 async function measureFromSound(){
-  /*
-  Kode for å hente ut måledata fra sensor
-  */
-  var value = 75
-  return value
+  var distance = 0
+  sonar.read((duration) => {
+    distance = 343*duration/1000*0.5
+    debug(`Duration: ${duration}, distance: ${distance}mm`)
+  })
+  return distance.toFixed(0)
 }
 
 async function measureDistanceInterval(){
