@@ -4,3 +4,161 @@ body {
   background-attachment: fixed;
   font-family:      -apple-system, BlinkMacSystemFont, calibri;
 }
+
+#chartContainer {
+  background-color: rgba(255, 255, 255, 0.7);
+  border:           0px solid white;
+  border-radius:    20px;
+}
+
+table {
+  border-collapse:separate;
+  border:           1px solid rgba(255, 255, 255, 0.5);
+  border-radius:    20px;
+  border-spacing:   0;
+  margin:           10px;
+}
+
+td {
+  border:           0px solid white;
+  border-bottom:    1px solid rgba(255, 255, 255, 0.5);
+  color:            white;
+}
+
+td, th {
+  background-color: rgba(255, 255, 255, 0.1);
+    border-left:    none;
+    border-top:     none;
+    padding:        12px;
+}
+
+th {
+  background: rgba(255, 255, 255, 0.3);
+  color:            white;
+  font-weight:      500;
+  font-size:        16pt;
+  text-transform:   uppercase;
+  border-top:       none;
+  text-align:       left;
+}
+
+tr:hover {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+  transition-duration: 0.2s;
+}
+
+tr { transition-duration: 0.2s; }
+tr:first-child th:first-child { border-top-left-radius: 20px; }
+tr:first-child th:last-child {  border-top-right-radius: 20px; }
+tr:last-child td:first-child {  border-bottom-left-radius: 20px; }
+tr:last-child td:last-child {   border-bottom-right-radius: 20px; }
+
+a {
+  color:            white;
+  text-decoration:  none;
+}
+
+a:visited {
+  color:            #DDDDDD;
+  text-decoration:  none;
+}
+
+b {
+  font-size:        16pt;
+  padding-left:     25px;
+  color:            white;
+}
+
+.sortering {
+  color:            transparent;
+}
+
+.new {
+  background-color: rgba(255, 255, 0, 0.7) !important;
+}
+
+.hidden {
+  display:          none;
+}
+
+input {
+  margin:           2px;
+  padding:          5px;
+  background-color: rgba(255, 255, 255, 0.7);
+  transition-duration: 0.4s;
+  border-radius:    4px;
+}
+
+input:hover {
+  margin:2px;
+  padding:5px;
+  background-color:#DDDDDD;
+}
+
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  margin: auto;
+  width: 80px;
+  height: 80px;
+  left:0%;
+  top: 0%;
+}
+
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) { animation-delay: -0.45s; }
+.lds-ring div:nth-child(2) { animation-delay: -0.3s; }
+.lds-ring div:nth-child(3) { animation-delay: -0.15s; }
+
+@keyframes lds-ring {
+  0% {    transform: rotate(0deg); }
+  100% {  transform: rotate(360deg); }
+}
+
+#loading {
+  background-color: rgba(0,0,0,0.7);
+  height:110%;
+  width:100%;
+  position: fixed;
+  z-index:1000;
+  left:0px;
+  padding:-20px;
+  margin-top:-20px;
+  visibility:hidden;
+}
+
+#loading2 {
+  position: absolute;
+  top: 50%;
+  width:100%;
+}
+
+#inner {
+  width:50%;
+  margin: auto;
+}
+
+#inner2 {
+  width: 100px;
+  margin: auto;
+}
+
+#statusMsg {
+  color: white;
+  margin-top: 10px;
+  font-size: 24pt;
+  font-weight: 100;
+  text-align: center;
+}
