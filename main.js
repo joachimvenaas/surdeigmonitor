@@ -26,6 +26,7 @@ var connection = mysql.createConnection({
  *
 */
 
+
 // OPPSTART
 debug(`Starter surdeigsmonitor`)
 connection.connect()
