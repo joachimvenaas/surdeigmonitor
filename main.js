@@ -89,31 +89,19 @@ WEBSERVER
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 http.createServer(function (req, res){
   if (req.url == '/'){
-    res.writeHead(200)
-    res.end(`<html>
-      <head>
-        <title>Surdeigsmonitor</title>
-        <meta charset="UTF-8">
-        <meta name="theme-color" content="#4ac282">
-        <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="script.js"></script>
-        <link rel="stylesheet" href="style.css">
-      </head>
-      <body onload="start()">
-      <input type="hidden" id="lastRead" value="${lastRead}">
-      <div>Neste avlesning: <span id="nextRead"></span></div>
-      <div>
-        <form action="/postfeed" method="post" onsubmit="return feeeed();">
-          <input id="surdeig" name="surdeig" value="Surdeig (gram)" onfocus="clearField('surdeig')" />
-          <input id="vann" name="vann" value="Vann (gram)" onfocus="clearField('vann')" />
-          <input id="mel" name="mel" value="Mel (gram)" onfocus="clearField('mel')" />
-          <input type="submit" id="feedSubmit" value="Mat" />
-        </form>
-      </div>
-      </body>
-    </html>`)
+    fs.readFile('index.html', function(err, data){
+      res.writeHead(200, { "Content-Type": "text/html" })
+      res.write(data)
+      res.end()
+    })
     
+  } else if (req.url == '/api.json') {
+    res.writeHead(200, { "Content-Type": "application/json" })
+    var json = {
+      'lastRead': lastRead
+    }
+    res.end(JSON.stringify(json))
+
   } else if (req.url == '/postfeed' && req.method == 'POST') {
     var body = ''
     req.on('data', function(data) { body += data })
@@ -126,18 +114,21 @@ http.createServer(function (req, res){
       res.writeHead(200, {'Content-Type': 'text/html'})
       res.end('Data received')
     })
+
   } else if (req.url == '/style.css') {
     fs.readFile('style.css', function(err, data){
       res.writeHead(200, { "Content-Type": "text/css" })
       res.write(data)
       res.end()
-      })
+    })
+
   } else if (req.url == '/script.js') {
     fs.readFile('script.js', function(err, data){
       res.writeHead(200, { "Content-Type": "text/javascript" })
       res.write(data)
       res.end()
     })
+    
   } else {
     res.writeHead(404)
     res.end(JSON.stringify({error:"404: Resource not found"}))

@@ -44,7 +44,18 @@ function feeeed(){
 }
 
 function start(){
-  
+  // Load values
+  var xmlhttp = new XMLHttpRequest()
+
+  xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText)
+          document.getElementById('lastRead').value = myArr['lastRead']
+      }
+  }
+  xmlhttp.open("GET", 'api.json', true)
+  xmlhttp.send()
+
   // Countdown to next read
   var x = setInterval(() => {
     var currentDate = new Date()
