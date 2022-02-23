@@ -97,11 +97,25 @@ http.createServer(function (req, res){
     
   } else if (req.url == '/api.json') {
     res.writeHead(200, { "Content-Type": "application/json" })
-    var json = {
-      'lastRead': lastRead
-    }
-    res.end(JSON.stringify(json))
 
+    var labels = [], data1 = [], feed = []
+    connection.query(`SELECT * FROM surdeig ORDER BY id ASC`, function (error, results, fields) {
+      if (error) throw error
+      results.forEach(element => {
+        var value = false
+        labels.push(new Date(element.time).toLocaleString('en-GB', { hour12: false }))
+        data1.push(element.distance)
+        if(element.surdeig > 0) value = true
+        feed.push(value)
+      })
+      var json = {
+        'lastRead': lastRead,
+        'labels': labels,
+        'data1': data1,
+        'feed': feed
+      }
+      res.end(JSON.stringify(json))
+    })
   } else if (req.url == '/postfeed' && req.method == 'POST') {
     var body = ''
     req.on('data', function(data) { body += data })
@@ -128,7 +142,7 @@ http.createServer(function (req, res){
       res.write(data)
       res.end()
     })
-    
+
   } else {
     res.writeHead(404)
     res.end(JSON.stringify({error:"404: Resource not found"}))

@@ -6,6 +6,14 @@ function clearField(form){
   }
 }
 
+function addField(form, text){
+  if(document.getElementById(form).value == ''){
+    document.getElementById(form).value = text
+    document.getElementById(form).style.fontStyle = 'italic'
+    document.getElementById(form).style.color = 'gray'
+  }
+}
+
 function feeeed(){
   var error = 0
   var surdeig = document.getElementById('surdeig').value
@@ -45,13 +53,58 @@ function feeeed(){
 
 function start(){
   // Load values
+  var lastReadFromArr
+  var ctx = document.getElementById('myChart').getContext('2d')
   var xmlhttp = new XMLHttpRequest()
 
   xmlhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-          var myArr = JSON.parse(this.responseText)
-          document.getElementById('lastRead').value = myArr['lastRead']
-      }
+    if (this.readyState == 4 && this.status == 200) {
+      var myArr = JSON.parse(this.responseText)
+      lastReadFromArr = myArr['lastRead']
+      var myChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          labels: myArr['labels'],
+          datasets: [{
+            type: 'line',
+            label: 'Høyde',
+            data: myArr['data1'],
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgb(75, 192, 192)',
+            tension: 0.3,
+            yAxisID: 'y'
+          },
+          {
+            type: 'bar',
+            label: 'Mating',
+            data: myArr['feed'],
+            fill: false,
+            borderColor: 'rgb(255, 150, 192)',
+            backgroundColor: 'rgb(255, 150, 192)',
+            tension: 0,
+            yAxisID: 'y2'
+          }
+        ]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              type: 'linear',
+              display: true,
+              position: 'left'
+            },
+            y2: {
+              beginAtZero: true,
+              type: 'linear',
+              display: false,
+              position: 'right',
+            }
+          }
+        }
+      })
+    }
   }
   xmlhttp.open("GET", 'api.json', true)
   xmlhttp.send()
@@ -59,7 +112,7 @@ function start(){
   // Countdown to next read
   var x = setInterval(() => {
     var currentDate = new Date()
-    var lastRead = new Date(document.getElementById('lastRead').value)
+    var lastRead = new Date(lastReadFromArr)
     var futureDate = new Date(lastRead.getTime() + 10*60000)
   
     var preSeconds = (futureDate-currentDate)/1000
@@ -71,7 +124,7 @@ function start(){
   
     document.getElementById('nextRead').innerHTML = `${minutes}:${seconds}`
 
-    if(preSeconds == 0){
+    if(preSeconds < 0){
       clearInterval(x)
       document.getElementById('nextRead').innerHTML = `UTDATERT`
     } 

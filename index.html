@@ -9,15 +9,17 @@
         <link rel="stylesheet" href="style.css">
       </head>
       <body onload="start()">
-      <input type="hidden" id="lastRead" />
       <div>Neste avlesning: <span id="nextRead"></span></div>
       <div>
         <form action="/postfeed" method="post" onsubmit="return feeeed()">
-          <input id="surdeig" name="surdeig" value="Surdeig (gram)" onfocus="clearField('surdeig')" />
-          <input id="vann" name="vann" value="Vann (gram)" onfocus="clearField('vann')" />
-          <input id="mel" name="mel" value="Mel (gram)" onfocus="clearField('mel')" />
+          <input inputmode="numeric" id="surdeig" name="surdeig" value="Surdeig (gram)" onfocus="clearField('surdeig')" onblur="addField('surdeig', 'Surdeig (gram)')" autocomplete="off" />
+          <input inputmode="numeric" id="vann" name="vann" value="Vann (gram)" onfocus="clearField('vann')" onblur="addField('vann', 'Vann (gram)')" autocomplete="off" />
+          <input inputmode="numeric" id="mel" name="mel" value="Mel (gram)" onfocus="clearField('mel')" onblur="addField('mel', 'Mel (gram)')" autocomplete="off" />
           <input type="submit" id="feedSubmit" value="Mat" />
         </form>
       </div>
+      <div style="padding: 20px;" id="chartContainer">
+        <canvas id="myChart"></canvas>
+        </div>
       </body>
     </html>
