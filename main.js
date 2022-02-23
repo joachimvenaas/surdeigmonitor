@@ -3,13 +3,13 @@ const fetch = require('node-fetch')
 const http = require('http')
 const axios = require('axios')
 const cheerio = require('cheerio')
-const { end } = require('cheerio/lib/api/traversing')
 const fs = require('fs')
 require('dotenv').config()
 
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
 
-debuglevel = 0
+var debuglevel = 0
+var timeBetweenScans = 10*60*1000 // ms (10 minutter)
 
 var connection = mysql.createConnection({
   host: process.env.DBhostname,
@@ -22,7 +22,7 @@ var connection = mysql.createConnection({
 /* DB SCHEMA
  * id (int)
  * time (date)
- * length (int)
+ * distance (int)
  * feed (bool)
  *
 */
@@ -30,6 +30,7 @@ var connection = mysql.createConnection({
 // OPPSTART
 debug(`Starter surdeigsmonitor`)
 connection.connect()
+measureDistanceInterval()
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
 DELTE FUNKSJONER
@@ -40,12 +41,42 @@ function debug(msg, level){
   lastDebug = msg
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------
 DATA INNSAMLING
 ---------------------------------------------------------------------------------------------------------------------------------------*/
-async function insertIntoDB(length, feed){
-  connection.query(`INSERT INTO ${process.env.DBtable} (length, feed) VALUES ( "${length}", "${feed}")`, function (error, results, fields){
+async function measureFromSound(){
+  /*
+  Kode for å hente ut måledata fra sensor
+  */
+  return value
+}
+
+async function measureDistanceInterval(){
+  debug("Measuring")
+  
+  var result = measureFromSound()
+
+  await insertIntoDB(result)
+
+  await sleep(timeBetweenScans)
+  await measureDistanceInterval()
+}
+
+async function feedingTime(){ // Må trigges fra webserver
+  debug("Matetid!")
+
+  var result = measureFromSound()
+
+  await insertIntoDB(result, true)
+
+}
+
+async function insertIntoDB(distance, feed=false){
+  connection.query(`INSERT INTO ${process.env.DBtable} (distance, feed) VALUES ( "${distance}", "${feed}")`, function (error, results, fields){
     if (error) throw error
   })
   return
