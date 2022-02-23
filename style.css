@@ -11,48 +11,6 @@ body {
   border-radius:    20px;
 }
 
-table {
-  border-collapse:separate;
-  border:           1px solid rgba(255, 255, 255, 0.5);
-  border-radius:    20px;
-  border-spacing:   0;
-  margin:           10px;
-}
-
-td {
-  border:           0px solid white;
-  border-bottom:    1px solid rgba(255, 255, 255, 0.5);
-  color:            white;
-}
-
-td, th {
-  background-color: rgba(255, 255, 255, 0.1);
-    border-left:    none;
-    border-top:     none;
-    padding:        12px;
-}
-
-th {
-  background: rgba(255, 255, 255, 0.3);
-  color:            white;
-  font-weight:      500;
-  font-size:        16pt;
-  text-transform:   uppercase;
-  border-top:       none;
-  text-align:       left;
-}
-
-tr:hover {
-  background-color: rgba(255, 255, 255, 0.3) !important;
-  transition-duration: 0.2s;
-}
-
-tr { transition-duration: 0.2s; }
-tr:first-child th:first-child { border-top-left-radius: 20px; }
-tr:first-child th:last-child {  border-top-right-radius: 20px; }
-tr:last-child td:first-child {  border-bottom-left-radius: 20px; }
-tr:last-child td:last-child {   border-bottom-right-radius: 20px; }
-
 a {
   color:            white;
   text-decoration:  none;
@@ -69,14 +27,6 @@ b {
   color:            white;
 }
 
-.sortering {
-  color:            transparent;
-}
-
-.new {
-  background-color: rgba(255, 255, 0, 0.7) !important;
-}
-
 .hidden {
   display:          none;
 }
@@ -88,12 +38,6 @@ input {
   transition-duration: 0.4s;
   border-radius:    4px;
   border: 1px solid black;
-}
-
-input:hover {
-  margin:2px;
-  padding:5px;
-  background-color:#DDDDDD;
 }
 
 .lds-ring {
