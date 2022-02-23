@@ -52,6 +52,7 @@ async function measureFromSound(){
   /*
   Kode for å hente ut måledata fra sensor
   */
+  var value = 75
   return value
 }
 
