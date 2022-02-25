@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="theme-color" content="#4ac282">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
         <script src="script.js"></script>
         <link rel="stylesheet" href="style.css">
       </head>
@@ -19,6 +20,12 @@
       </div>
       <div style="padding: 20px;" id="chartContainer">
         <canvas id="myChart"></canvas>
+        <input class="viewButton" type="button" id="6t" onclick="changeSize(this, 3)" value="3t" />
+        <input class="viewButton" type="button" id="6t" onclick="changeSize(this, 6)" value="6t" />
+        <input class="viewButton" type="button" id="12t" onclick="changeSize(this, 12)" value="12t" />
+        <input class="viewButton" type="button" id="1d" onclick="changeSize(this, 24)" value="1d" />
+        <input class="viewButton" type="button" id="2d" onclick="changeSize(this, 48)" value="2d" style="background-color: white;" />
+        <input class="viewButton" type="button" id="7d" onclick="changeSize(this, 168)" value="7d" />
         </div>
       </body>
     </html>

@@ -102,15 +102,11 @@ http.createServer(function (req, res){
     connection.query(`SELECT * FROM surdeig ORDER BY id ASC`, function (error, results, fields) {
       if (error) throw error
       results.forEach(element => {
-        var value = false
-        labels.push(new Date(element.time).toLocaleString('en-GB', { hour12: false }))
-        data1.push(element.distance)
-        if(element.surdeig > 0) value = true
-        feed.push(value)
+        data1.push({ x: element.time, y: element.distance })
+        feed.push({ x: element.time, y: element.feed })
       })
       var json = {
         'lastRead': lastRead,
-        'labels': labels,
         'data1': data1,
         'feed': feed
       }

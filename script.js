@@ -51,6 +51,7 @@ function feeeed(){
   return false
 }
 
+var myChart
 function start(){
   // Load values
   var lastReadFromArr
@@ -61,30 +62,33 @@ function start(){
     if (this.readyState == 4 && this.status == 200) {
       var myArr = JSON.parse(this.responseText)
       lastReadFromArr = myArr['lastRead']
-      var myChart = new Chart(ctx, {
-        type: 'scatter',
+      myChart = new Chart(ctx, {
+        type: 'line',
         data: {
-          labels: myArr['labels'],
           datasets: [{
-            type: 'line',
-            label: 'Høyde',
-            data: myArr['data1'],
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            backgroundColor: 'rgb(75, 192, 192)',
-            tension: 0.3,
-            yAxisID: 'y'
-          },
-          {
             type: 'bar',
+            barThickness: 5,
             label: 'Mating',
             data: myArr['feed'],
             fill: false,
             borderColor: 'rgb(255, 150, 192)',
             backgroundColor: 'rgb(255, 150, 192)',
+            borderWidth: 5,
             tension: 0,
-            yAxisID: 'y2'
+            yAxisID: 'y2',
+            xAxisID: 'x'
+          },{
+            type: 'line',
+            label: 'Mengde surdeig',
+            data: myArr['data1'],
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgb(75, 192, 192)',
+            tension: 0.3,
+            yAxisID: 'y',
+            xAxisID: 'x'
           }
+          
         ]
         },
         options: {
@@ -99,7 +103,16 @@ function start(){
               beginAtZero: true,
               type: 'linear',
               display: false,
-              position: 'right',
+              min: 0,
+              max: 1
+            },
+            x: {
+              type: 'time',
+              min: Date.now()-48*60*60*1000,
+              max: Date.now(),
+              time: {
+                  unit: 'hour'
+              }
             }
           }
         }
@@ -129,4 +142,29 @@ function start(){
       document.getElementById('nextRead').innerHTML = `UTDATERT`
     } 
   }, 500)
+}
+
+function changeSize(that, size){
+  Array.prototype.forEach.call(document.getElementsByClassName('viewButton'), function(el) {
+    el.style.backgroundColor = 'rgb(180, 180, 180)'
+})
+
+  document.getElementById(that.id).style.backgroundColor = 'white'
+  myChart.options = {
+    scales: {
+      x: {
+        type: 'time',
+        min: Date.now()-size*60*60*1000,
+        max: Date.now(),
+        time: {
+          unit: 'hour'
+        }
+      },
+      y2: {
+        display: false
+      }
+    }
+  }
+  myChart.update()
+  return
 }

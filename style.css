@@ -113,3 +113,8 @@ input#surdeig, input#vann, input#mel {
   color:gray;
   width:125px;
 }
+
+.viewButton {
+  background-color: rgb(180, 180, 180);
+  color:rgb(71, 71, 71)
+}
