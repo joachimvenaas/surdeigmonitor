@@ -1,15 +1,15 @@
-const mysql =     require('mysql')
-const fetch =     require('node-fetch')
-const http =      require('http')
-const axios =     require('axios')
-const cheerio =   require('cheerio')
-const fs =        require('fs')
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
+const mysql =     require('mysql'),
+      fetch =     require('node-fetch'),
+      http =      require('http'),
+      axios =     require('axios'),
+      cheerio =   require('cheerio'),
+      fs =        require('fs')
+
 require('dotenv').config()
 
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
-
-var debuglevel = 0
-var timeBetweenScans = 10*60*1000 // ms (10 minutter)
+var debuglevel = 0,
+    timeBetweenScans = 10*60*1000 // ms (10 minutter)
 
 var connection = mysql.createConnection({
   host: process.env.DBhostname,
